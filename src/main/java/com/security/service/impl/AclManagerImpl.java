@@ -70,7 +70,7 @@ public class AclManagerImpl implements AclManager {
 		try {
 			isGranted = acl.isGranted(Arrays.asList(permission), Arrays.asList(sid), false);
 		} catch (NotFoundException e) {
-			log.info("Unable to find an ACE for the given object", e);
+			//log.info("Unable to find an ACE for the given object", e);
 		} catch (UnloadedSidException e) {
 			log.error("Unloaded Sid", e);
 		}

@@ -19,9 +19,9 @@ public class SecurityTestService {
 
 	private static final Logger log = LoggerFactory.getLogger(SecurityTestService.class);
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_SUPERUSER')")
 	public boolean testHasRoleAdmin() {
-		log.info("access granted to hasRole('ROLE_ADMIN')");
+		log.info("access granted to hasRole('ROLE_SUPERUSER')");
 		return true;
 	}
 	

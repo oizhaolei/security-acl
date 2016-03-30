@@ -11,7 +11,6 @@ import static org.junit.Assert.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.security.service.impl.SecurityTestService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 import com.security.service.UserGroupManager;
+import com.security.service.impl.SecurityTestService;
 import com.security.test.util.AbstractSecurityTest;
 
 /**

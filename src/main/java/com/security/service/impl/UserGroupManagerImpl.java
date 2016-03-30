@@ -4,6 +4,7 @@
 package com.security.service.impl;
 
 import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ import com.security.service.UserGroupManager;
 public class UserGroupManagerImpl implements UserGroupManager {
 	
 	private static final String ADMINISTRADOR = "Administrador";
-	private static final String ROLE_ADMIN = "ROLE_ADMIN";
+	private static final String ROLE_SUPERUSER = "ROLE_SUPERUSER";
 	private static final String ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
 
 	@Autowired private JdbcUserDetailsManager jdbcUserDetailsManager;
@@ -45,7 +46,7 @@ public class UserGroupManagerImpl implements UserGroupManager {
 		if (!allGroups.contains(group)) {
 			if (group.equalsIgnoreCase(ADMINISTRADOR)) {
 				List<GrantedAuthority> grantedAuthority = new ArrayList<>();
-				grantedAuthority.add(new SimpleGrantedAuthority(ROLE_ADMIN));
+				grantedAuthority.add(new SimpleGrantedAuthority(ROLE_SUPERUSER));
 				jdbcUserDetailsManager.createGroup(group, grantedAuthority);
 			} else {
 				List<GrantedAuthority> grantedAuthority = new ArrayList<>();

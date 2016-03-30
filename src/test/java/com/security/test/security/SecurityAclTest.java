@@ -8,7 +8,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import com.security.service.impl.SecurityTestService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,6 +26,7 @@ import com.security.model.Menu;
 import com.security.service.AclManager;
 import com.security.service.MenuService;
 import com.security.service.UserGroupManager;
+import com.security.service.impl.SecurityTestService;
 import com.security.test.util.AbstractSecurityTest;
 
 /**
@@ -50,7 +50,7 @@ public class SecurityAclTest extends AbstractSecurityTest {
 	
 	@Before
 	public void setup() {
-		userGroupManager.createUserWithAuthoriy(USER_ADMIN, "ROLE_ADMIN");
+		userGroupManager.createUserWithAuthoriy(USER_ADMIN, "ROLE_SUPERUSER");
 		userGroupManager.createUserWithAuthoriy(USER_USER, "ROLE_USER");
 		
     	Menu p1 = new Menu();
@@ -164,18 +164,27 @@ public class SecurityAclTest extends AbstractSecurityTest {
 			Menu newMenu = menuService.saveOrUpdate(m);
 
 			if (i < 2) {
-				aclManager.addPermission(Menu.class, newMenu.getId(), new GrantedAuthoritySid("ROLE_ADMIN"), BasePermission.ADMINISTRATION);
+				aclManager.addPermission(Menu.class, newMenu.getId(), new GrantedAuthoritySid("ROLE_SUPERUSER"), BasePermission.ADMINISTRATION);
 			} else {
 				aclManager.addPermission(Menu.class, newMenu.getId(), new GrantedAuthoritySid("ROLE_USER"), BasePermission.READ);
 			}
 		}
 
+		assertThat(menuService.findAll().size(), is(equalTo(5)));
+
 		userGroupManager.setAuthentication(USER_ADMIN);
-		assertThat(menuService.testFilterMenu(menuService.findAll()).size(), is(equalTo(2)));
+		assertThat(menuService.testFilterMenuWithReadPermission().size(), is(equalTo(2)));
+
+//		userGroupManager.setAuthentication(USER_USER);
+//		assertThat(menuService.testFilterMenuWithReadPermission().size(), is(equalTo(3)));
+
+		userGroupManager.setAuthentication(USER_ADMIN);
+		assertThat(menuService.testFilterMenu().size(), is(equalTo(2)));
 
 		userGroupManager.setAuthentication(USER_USER);
 		exception.expect(AccessDeniedException.class);
-		menuService.testFilterMenu(menuService.findAll());
+		menuService.testFilterMenu();
+
 	}
 	
 	@Test

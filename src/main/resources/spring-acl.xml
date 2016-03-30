@@ -58,6 +58,6 @@
 	</bean>
 	
 	<bean id="adminAuthority" class="org.springframework.security.core.authority.SimpleGrantedAuthority">
-		<constructor-arg value="ROLE_ADMIN" />
+		<constructor-arg value="ROLE_SUPERUSER" />
 	</bean>
 </beans>

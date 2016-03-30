@@ -4,8 +4,6 @@ import com.security.model.Menu;
 import com.security.repository.MenuRepository;
 import com.security.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,9 +44,11 @@ public class MenuServiceImpl implements MenuService {
 		menuRepository.deleteAll();
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PreFilter("hasPermission(filterObject, 'administration')")
-	public List<Menu> testFilterMenu(List<Menu> menus) {
-		return menus;
+	public List<Menu> testFilterMenu() {
+		return menuRepository.findAll();
+	}
+
+	public List<Menu> testFilterMenuWithReadPermission() {
+		return menuRepository.findAll();
 	}
 }
